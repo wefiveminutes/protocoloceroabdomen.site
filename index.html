@@ -150,3 +150,101 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="./assets/js/com.js"></script>
+    
+    <script>
+    (function(b) {
+        var a = {
+            version: "0.0.1",
+            history_api: typeof history.pushState !== "undefined",
+            init: function() {
+                b.location.hash = "#no-back";
+                a.configure();
+            },
+            hasChanged: function() {
+                if (b.location.hash == "#no-back") {
+                    b.location.hash = "#";
+                    if (b.location.search == null || b.location.search == undefined || b.location.search ==
+                        '') {
+                        b.location.href = "https://lucrandoemcaasa.online/naofeche/";
+                    } else {
+                        if (location.search.indexOf("src") > -1) {
+                            var partes = location.search.slice(1).split('&');
+                            var data = {};
+                            var new_search = '?';
+                            partes.forEach(function(parte) {
+                                var chaveValor = parte.split('=');
+                                var chave = chaveValor[0];
+                                var valor = chaveValor[1];
+                                data[chave] = valor;
+                            });
+                            data.src = data.src + "-->back_home";
+                            new_search += JSON.stringify(data).replace(/[{}"]/g, "").replace(/[:]/g, "=")
+                                .replace(/[,]/g, "&");
+    
+                            b.location.href = "https://lucrandoemcaasa.online/naofeche/?src=back_oferta" + new_search;
+                        } else {
+                            b.location.href = "https://lucrandoemcaasa.online/naofeche/?src=back_oferta" + b.location.search + "&src=back_oferta";
+                        }
+                    }
+                }
+            },
+            checkCompat: function() {
+                if (b.addEventListener) {
+                    b.addEventListener("hashchange", a.hasChanged, false);
+                } else {
+                    if (b.attachEvent) {
+                        b.attachEvent("onhashchange", a.hasChanged);
+                    } else {
+                        b.onhashchange = a.hasChanged;
+                    }
+                }
+            },
+            configure: function() {
+                if (b.location.hash == "#no-back") {
+                    if (this.history_api) {
+                        history.pushState(null, "", "#");
+                    } else {
+                        // b.location.hash = "#";
+                        if (b.location.search == null || b.location.search == undefined || b.location.search ==
+                            '') {
+                            b.location.href = "https://lucrandoemcaasa.online/naofeche/?src=back_oferta";
+                        } else {
+                            if (location.search.indexOf("src") > -1) {
+                                var partes = location.search.slice(1).split('&');
+                                var data = {};
+                                var new_search = '?';
+                                partes.forEach(function(parte) {
+                                    var chaveValor = parte.split('=');
+                                    var chave = chaveValor[0];
+                                    var valor = chaveValor[1];
+                                    data[chave] = valor;
+                                });
+                                data.src = data.src + "-->back_home";
+                                new_search += JSON.stringify(data).replace(/[{}"]/g, "").replace(/[:]/g, "=")
+                                    .replace(/[,]/g, "&");
+    
+                                b.location.href = "https://lucrandoemcaasa.online/naofeche/?src=back_oferta" + new_search;
+                            } else {
+                                b.location.href = "https://lucrandoemcaasa.online/naofeche/?src=back_oferta" + b.location.search + "&src=back_oferta";
+                            }
+                        }
+                    }
+                }
+                a.checkCompat();
+                a.hasChanged();
+            }
+        };
+        if (typeof define === "function" && define.amd) {
+            define(function() {
+                return a;
+            });
+        } else {
+            if (typeof module === "object" && module.exports) {
+                module.exports = a;
+            } else {
+                b.noback = a;
+            }
+        }
+        a.init();
+    }(window));
+    </script>
